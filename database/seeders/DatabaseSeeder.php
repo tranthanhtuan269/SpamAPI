@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Spam;
 use App\Models\Report;
-use App\Models\Tag;
 use App\Models\Job;
 use Illuminate\Support\Facades\Hash;
 
@@ -48,14 +47,6 @@ class DatabaseSeeder extends Seeder
             $report->user_type = rand(1, 5);
             $report->tag_id = rand(1, 100);
             $report->save();
-        }
-
-        for($i = 0; $i < 100; $i++){
-            $tag = new Tag;
-            $tag->reporter_id = rand(1, 100);
-            $tag->reported_id = rand(1, 100);
-            $tag->job_id = rand(1, 100);
-            $tag->save();
         }
 
         for($i = 0; $i < 100; $i++){

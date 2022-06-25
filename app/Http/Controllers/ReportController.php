@@ -138,17 +138,26 @@ class ReportController extends Controller
                         // find Spam of User in system
                         $spam = Spam::where('reported_id', $user->id)->first();
                         if($spam){
-                                // create report
-                                $report = new Report;
-                                $report->spam_id = $spam->id;
-                                $report->reporter_id = \Auth::id();
-                                $report->reported_id = $user->id;
-                                // $report->comment = $request->comment;
-                                $report->user_type = $request->user_type;
-                                $report->suggest_name = $request->name;
-                                // $report->spam_type = $request->spam_type;
-                                $report->save();
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                // if exited report 
+                                $report = Report::where('reporter_id', \Auth::id())->where('reported_id', $user->id)->first();
+
+                                if($report){
+                                        $report->suggest_name = $request->name;
+                                        $report->save();
+                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                }else{
+                                        // create report
+                                        $report = new Report;
+                                        $report->spam_id = $spam->id;
+                                        $report->reporter_id = \Auth::id();
+                                        $report->reported_id = $user->id;
+                                        // $report->comment = $request->comment;
+                                        $report->user_type = $request->user_type;
+                                        $report->suggest_name = $request->name;
+                                        // $report->spam_type = $request->spam_type;
+                                        $report->save();
+                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                }
                         }else{
                                 // create spam
                                 $spam = new Spam;
@@ -221,18 +230,26 @@ class ReportController extends Controller
                         // find Spam of User in system
                         $spam = Spam::where('reported_id', $user->id)->first();
                         if($spam){
-                                // create report
-                                $report = new Report;
-                                $report->spam_id = $spam->id;
-                                $report->reporter_id = \Auth::id();
-                                $report->reported_id = $user->id;
-                                // $report->comment = $request->comment;
-                                $report->user_type = $request->user_type;
-                                $report->suggest_name = $request->name;
-                                $report->job_id = $request->job_id;
-                                // $report->spam_type = $request->spam_type;
-                                $report->save();
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                // if exited report 
+                                $report = Report::where('reporter_id', \Auth::id())->where('reported_id', $user->id)->first();
+
+                                if($report){
+                                        $report->job_id = $request->job_id;
+                                        $report->save();
+                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                }else{
+                                        // create report
+                                        $report = new Report;
+                                        $report->spam_id = $spam->id;
+                                        $report->reporter_id = \Auth::id();
+                                        $report->reported_id = $user->id;
+                                        // $report->comment = $request->comment;
+                                        $report->user_type = $request->user_type;
+                                        $report->job_id = $request->job_id;
+                                        // $report->spam_type = $request->spam_type;
+                                        $report->save();
+                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                }
                         }else{
                                 // create spam
                                 $spam = new Spam;

@@ -19,7 +19,7 @@ class Spam extends Migration
             $table->string('reported_name', 255)->nullable();
             $table->integer('user_type')->nullable();
             $table->integer('spam_type')->nullable();
-            $table->integer('tag_id')->nullable();
+            $table->integer('job_id')->nullable();
             $table->timestamps();
         });
     }

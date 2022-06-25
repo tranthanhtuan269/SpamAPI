@@ -55,4 +55,16 @@ class UserController extends Controller
                 ->transformWith(new UserTransformer)
                 ->toArray();
     }
+
+    public function getUserProfile(Request $request){
+        $user = User::where('phone', $request->phone)->first();
+        if($user){
+            return fractal()
+                ->item($user)
+                ->transformWith(new UserTransformer)
+                ->toArray();
+        }else{
+            return response()->json(['status' => 200, 'message'=>'not found']);
+        }
+    }
 }

@@ -52,6 +52,7 @@ Route::group([
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::get('/{user}', [UserController::class, 'show']);
         Route::get('/{user}/update-profile', [UserController::class, 'updateProfile']);
     });
