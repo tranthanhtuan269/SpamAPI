@@ -33,8 +33,7 @@ class UserController extends Controller
                 ->toArray();
     }
 
-    public function updateProfile(Request $request){
-        $user = User::where("slug", "=", $slug)->first();
+    public function updateUserProfile(Request $request){
         $user = Auth::user();
         $user->phone = $user->phone_number;
         $user->second_phone_number = $user->second_phone_number;

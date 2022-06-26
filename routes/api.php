@@ -53,6 +53,7 @@ Route::group([
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
+        Route::get('/update-user-profile', [UserController::class, 'updateUserProfile']);
         Route::get('/{user}', [UserController::class, 'show']);
         Route::get('/{user}/update-profile', [UserController::class, 'updateProfile']);
     });
@@ -67,6 +68,7 @@ Route::group([
 
     Route::group(['prefix' => 'spams'], function(){
         Route::get('/', [SpamController::class, 'index']);
+        Route::get('/get-top', [ReportController::class, 'getTop']);
         Route::get('/{spam}', [SpamController::class, 'show']);
     });
 });

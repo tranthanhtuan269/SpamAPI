@@ -305,4 +305,15 @@ class ReportController extends Controller
                         return response()->json(['status' => 200, 'message'=>'success']);
                 }
         }
+
+        public function getTop(Request $request){
+                $topSpam = Report::select('reported_id', \DB::raw('count(reported_id) as total'))
+                                ->groupBy('reported_id')
+                                ->orderBy('total', 'desc')->take($request->limit)->get();
+                dd($request);
+                return fractal()
+                        ->collection($topSpam)
+                        ->transformWith(new ReportTransformer)
+                        ->toArray();
+        }
 }
