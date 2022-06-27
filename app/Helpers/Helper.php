@@ -2,6 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Report;
+use App\Models\Spam;
+
 
 class Helper
 {
