@@ -53,9 +53,10 @@ Route::group([
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index']);
         Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
-        Route::get('/update-user-profile', [UserController::class, 'updateUserProfile']);
-        Route::get('/{user}', [UserController::class, 'show']);
-        Route::get('/{user}/update-profile', [UserController::class, 'updateProfile']);
+        Route::post('/update-user-profile', [UserController::class, 'updateUserProfile']);
+        Route::post('/update-security', [UserController::class, 'updateUserSecurity']);
+        // Route::get('/{user}', [UserController::class, 'show']);
+        // Route::post('/{user}/update-profile', [UserController::class, 'updateProfile']);
     });
     
     Route::group(['prefix' => 'reports'], function(){

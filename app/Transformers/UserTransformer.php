@@ -27,6 +27,7 @@ class UserTransformer extends TransformerAbstract
             'company' => $user->company,
             'about' => $user->about,
             'website' => $user->website,
+            'security' => $user->security,
             'job' => isset($user->job_id) ? $user->job : null,
             'city' => isset($user->city_id) ? $user->city : null,
 

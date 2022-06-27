@@ -34,12 +34,12 @@ class UserController extends Controller
     }
 
     public function updateUserProfile(Request $request){
-        $user = Auth::user();
-        $user->phone = $user->phone_number;
-        $user->second_phone_number = $user->second_phone_number;
-        $user->first_name = $user->first_name;
-        $user->last_name = $user->last_name;
-        $user->email = $user->email;
+        $user = \Auth::user();
+        $user->phone = $request->phone_number;
+        $user->second_phone_number = $request->second_phone_number;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
         $user->birthday = $request->birthday;
         $user->gender = $request->gender;
         $user->street = $request->street;
@@ -47,6 +47,17 @@ class UserController extends Controller
         $user->company = $request->company;
         $user->about = $request->about;
         $user->website = $request->website;
+        $user->save();
+        
+        return fractal()
+                ->item($user)
+                ->transformWith(new UserTransformer)
+                ->toArray();
+    }
+
+    public function updateUserSecurity(Request $request){
+        $user = \Auth::user();
+        $user->security = $request->security;
         $user->save();
         
         return fractal()

@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('company', 255)->nullable();
             $table->string('about', 255)->nullable();
             $table->string('website', 255)->nullable();
+            $table->text('security')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

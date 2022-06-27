@@ -21,7 +21,7 @@ class Reports extends Migration
             $table->text('comment')->nullable();
             $table->integer('spam_type')->nullable();
             $table->integer('user_type')->nullable();
-            $table->integer('tag_id')->nullable();
+            $table->integer('job_id')->nullable();
             $table->timestamps();
         });
     }

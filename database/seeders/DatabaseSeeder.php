@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
             $spam->reported_name = "usertest" . $i;
             $spam->user_type = rand(1, 2);
             $spam->spam_type = rand(1, 5);
-            $spam->tag_id = rand(1, 100);
+            $spam->job_id = rand(1, 100);
             $spam->save();
         }
 
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             $report->comment = 'abc';
             $report->spam_type = rand(1, 2);
             $report->user_type = rand(1, 5);
-            $report->tag_id = rand(1, 100);
+            $report->job_id = rand(1, 100);
             $report->save();
         }
 

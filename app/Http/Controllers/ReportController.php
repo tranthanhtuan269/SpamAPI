@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Spam;
 use App\Models\Report;
+use App\Helpers\Helper;
 
 use Illuminate\Http\Request;
 use App\Transformers\ReportTransformer;
@@ -156,6 +157,11 @@ class ReportController extends Controller
                                         $report->suggest_name = $request->name;
                                         // $report->spam_type = $request->spam_type;
                                         $report->save();
+
+                                        // update reported_name
+                                        Helper::updateReportedName($user);
+                                        // end update
+
                                         return response()->json(['status' => 200, 'message'=>'success']);
                                 }
                         }else{
@@ -177,6 +183,10 @@ class ReportController extends Controller
                                 $report->suggest_name = $request->name;
                                 // $report->spam_type = $request->spam_type;
                                 $report->save();
+
+                                // update reported_name
+                                Helper::updateReportedName($user);
+                                // end update
 
                                 return response()->json(['status' => 200, 'message'=>'success']);
                         }
@@ -207,6 +217,10 @@ class ReportController extends Controller
                         $report->suggest_name = $request->name;
                         // $report->spam_type = $request->spam_type;
                         $report->save();
+
+                        // update reported_name
+                        Helper::updateReportedName($user);
+                        // end update
 
                         return response()->json(['status' => 200, 'message'=>'success']);
                 }
@@ -248,6 +262,9 @@ class ReportController extends Controller
                                         $report->job_id = $request->job_id;
                                         // $report->spam_type = $request->spam_type;
                                         $report->save();
+
+                                        Helper::updateReportedJob($user);
+
                                         return response()->json(['status' => 200, 'message'=>'success']);
                                 }
                         }else{
@@ -270,6 +287,8 @@ class ReportController extends Controller
                                 $report->job_id = $request->job_id;
                                 // $report->spam_type = $request->spam_type;
                                 $report->save();
+
+                                Helper::updateReportedJob($user);
 
                                 return response()->json(['status' => 200, 'message'=>'success']);
                         }
@@ -302,6 +321,8 @@ class ReportController extends Controller
                         // $report->spam_type = $request->spam_type;
                         $report->save();
 
+                        Helper::updateReportedJob($user);
+
                         return response()->json(['status' => 200, 'message'=>'success']);
                 }
         }
@@ -310,7 +331,6 @@ class ReportController extends Controller
                 $topSpam = Report::select('reported_id', \DB::raw('count(reported_id) as total'))
                                 ->groupBy('reported_id')
                                 ->orderBy('total', 'desc')->take($request->limit)->get();
-                dd($request);
                 return fractal()
                         ->collection($topSpam)
                         ->transformWith(new ReportTransformer)
