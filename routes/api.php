@@ -36,7 +36,6 @@ Route::group([
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index']);
-        Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
         Route::post('/update-user-profile', [UserController::class, 'updateUserProfile']);
         Route::post('/update-security', [UserController::class, 'updateUserSecurity']);
         // Route::get('/{user}', [UserController::class, 'show']);
@@ -58,15 +57,7 @@ Route::group([
     });
 });
 
-Route::group(['prefix' => 'countries'], function(){
-    Route::get('/', [CountryController::class, 'index']);
-    Route::get('/{country}', [CountryController::class, 'show']);
-});
-
-Route::group(['prefix' => 'cities'], function(){
-    Route::get('/', [CityController::class, 'index']);
-    Route::get('/{city}', [CityController::class, 'show']);
-});
+Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
 
 Route::group(['prefix' => 'jobs'], function(){
     Route::get('/', [JobController::class, 'index']);
