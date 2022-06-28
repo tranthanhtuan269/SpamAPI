@@ -29,22 +29,6 @@ use App\Http\Controllers\HomeController;
 //     return $request->user();
 // });
 
-
-Route::group(['prefix' => 'countries'], function(){
-    Route::get('/', [CountryController::class, 'index']);
-    Route::get('/{country}', [CountryController::class, 'show']);
-});
-
-Route::group(['prefix' => 'cities'], function(){
-    Route::get('/', [CityController::class, 'index']);
-    Route::get('/{city}', [CityController::class, 'show']);
-});
-
-Route::group(['prefix' => 'jobs'], function(){
-    Route::get('/', [JobController::class, 'index']);
-    Route::get('/{job}', [JobController::class, 'show']);
-});
-
 Route::group([
   'middleware' => 'auth:api'
 ], function() {
@@ -72,4 +56,19 @@ Route::group([
         Route::get('/get-top', [ReportController::class, 'getTop']);
         Route::get('/{spam}', [SpamController::class, 'show']);
     });
+});
+
+Route::group(['prefix' => 'countries'], function(){
+    Route::get('/', [CountryController::class, 'index']);
+    Route::get('/{country}', [CountryController::class, 'show']);
+});
+
+Route::group(['prefix' => 'cities'], function(){
+    Route::get('/', [CityController::class, 'index']);
+    Route::get('/{city}', [CityController::class, 'show']);
+});
+
+Route::group(['prefix' => 'jobs'], function(){
+    Route::get('/', [JobController::class, 'index']);
+    Route::get('/{job}', [JobController::class, 'show']);
 });
