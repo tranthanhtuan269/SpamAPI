@@ -51,7 +51,7 @@ class ReportController extends Controller
 
                 if ($validator->fails()) {
                         // return 
-                        return response()->json(['status' => 200, 'message'=>'error invalid']);
+                        return response()->json(['status' => 1, 'message'=>'error invalid']);
                 }
                 // find User in system
                 $user = User::where('phone', $request->phone)->first();
@@ -68,7 +68,7 @@ class ReportController extends Controller
                                 $report->user_type = $request->user_type;
                                 $report->spam_type = $request->spam_type;
                                 $report->save();
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                return response()->json(['status' => 1, 'message'=>'success']);
                         }else{
                                 // create spam
                                 $spam = new Spam;
@@ -89,7 +89,7 @@ class ReportController extends Controller
                                 $report->spam_type = $request->spam_type;
                                 $report->save();
 
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                return response()->json(['status' => 1, 'message'=>'success']);
                         }
                 }else{
                         // create user
@@ -119,7 +119,7 @@ class ReportController extends Controller
                         $report->spam_type = $request->spam_type;
                         $report->save();
 
-                        return response()->json(['status' => 200, 'message'=>'success']);
+                        return response()->json(['status' => 1, 'message'=>'success']);
                 }
         }
 
@@ -132,7 +132,7 @@ class ReportController extends Controller
 
                 if ($validator->fails()) {
                         // return 
-                        return response()->json(['status' => 200, 'message'=>'error invalid']);
+                        return response()->json(['status' => 1, 'message'=>'error invalid']);
                 }
 
                 // find User in system
@@ -147,7 +147,7 @@ class ReportController extends Controller
                                 if($report){
                                         $report->suggest_name = $request->name;
                                         $report->save();
-                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                        return response()->json(['status' => 1, 'message'=>'success']);
                                 }else{
                                         // create report
                                         $report = new Report;
@@ -164,7 +164,7 @@ class ReportController extends Controller
                                         Helper::updateReportedName($user);
                                         // end update
 
-                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                        return response()->json(['status' => 1, 'message'=>'success']);
                                 }
                         }else{
                                 // create spam
@@ -190,7 +190,7 @@ class ReportController extends Controller
                                 Helper::updateReportedName($user);
                                 // end update
 
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                return response()->json(['status' => 1, 'message'=>'success']);
                         }
                 }else{
                         // create user
@@ -224,7 +224,7 @@ class ReportController extends Controller
                         Helper::updateReportedName($user);
                         // end update
 
-                        return response()->json(['status' => 200, 'message'=>'success']);
+                        return response()->json(['status' => 1, 'message'=>'success']);
                 }
         }
 
@@ -237,7 +237,7 @@ class ReportController extends Controller
 
                 if ($validator->fails()) {
                         // return 
-                        return response()->json(['status' => 200, 'message'=>'error invalid']);
+                        return response()->json(['status' => 1, 'message'=>'error invalid']);
                 }
 
                 // find User in system
@@ -252,7 +252,7 @@ class ReportController extends Controller
                                 if($report){
                                         $report->job_id = $request->job_id;
                                         $report->save();
-                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                        return response()->json(['status' => 1, 'message'=>'success']);
                                 }else{
                                         // create report
                                         $report = new Report;
@@ -267,7 +267,7 @@ class ReportController extends Controller
 
                                         Helper::updateReportedJob($user);
 
-                                        return response()->json(['status' => 200, 'message'=>'success']);
+                                        return response()->json(['status' => 1, 'message'=>'success']);
                                 }
                         }else{
                                 // create spam
@@ -292,7 +292,7 @@ class ReportController extends Controller
 
                                 Helper::updateReportedJob($user);
 
-                                return response()->json(['status' => 200, 'message'=>'success']);
+                                return response()->json(['status' => 1, 'message'=>'success']);
                         }
                 }else{
                         // create user
@@ -325,12 +325,12 @@ class ReportController extends Controller
 
                         Helper::updateReportedJob($user);
 
-                        return response()->json(['status' => 200, 'message'=>'success']);
+                        return response()->json(['status' => 1, 'message'=>'success']);
                 }
         }
 
         public function getTop(Request $request){
-                $topSpam = Report::select('reported_id', \DB::raw('count(reported_id) as total'))
+                $topSpam = Report::select('id', 'reported_id', 'reporter_id', 'comment', 'job_id', \DB::raw('count(reported_id) as total'))
                                 ->groupBy('reported_id')
                                 ->orderBy('total', 'desc')->take($request->limit)->get();
                 return fractal()
