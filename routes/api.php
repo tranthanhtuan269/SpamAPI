@@ -29,6 +29,8 @@ use App\Http\Controllers\HomeController;
 //     return $request->user();
 // });
 
+Route::get('spams/get-top', [ReportController::class, 'getTop']);
+
 Route::group([
   'middleware' => 'auth:api'
 ], function() {
@@ -52,13 +54,11 @@ Route::group([
 
     Route::group(['prefix' => 'spams'], function(){
         Route::get('/', [SpamController::class, 'index']);
-        Route::get('/get-top', [ReportController::class, 'getTop']);
         Route::get('/{spam}', [SpamController::class, 'show']);
     });
 });
 
 Route::get('/get-user-profile', [UserController::class, 'getUserProfile']);
-
 Route::group(['prefix' => 'jobs'], function(){
     Route::get('/', [JobController::class, 'index']);
     Route::get('/{job}', [JobController::class, 'show']);
