@@ -46,7 +46,7 @@ class ReportController extends Controller
                     'user_type' => 'required',
                     'spam_type' => 'required',
                     'reported_name' => 'required|string|max:255',
-                    'job_id' => 'required',
+                    'comment' => 'required',
                 ]);
 
                 if ($validator->fails()) {
@@ -64,7 +64,7 @@ class ReportController extends Controller
                                 $report->spam_id = $spam->id;
                                 $report->reporter_id = \Auth::id();
                                 $report->reported_id = $user->id;
-                                // $report->comment = $request->comment;
+                                $report->comment = $request->comment;
                                 $report->user_type = $request->user_type;
                                 $report->spam_type = $request->spam_type;
                                 $report->save();
@@ -84,6 +84,7 @@ class ReportController extends Controller
                                 $report->spam_id = $spam->id;
                                 $report->reporter_id = \Auth::id();
                                 $report->reported_id = $user->id;
+                                $report->comment = $request->comment;
                                 $report->user_type = $request->user_type;
                                 $report->spam_type = $request->spam_type;
                                 $report->save();
@@ -113,6 +114,7 @@ class ReportController extends Controller
                         $report->spam_id = $spam->id;
                         $report->reporter_id = \Auth::id();
                         $report->reported_id = $user->id;
+                        $report->comment = $request->comment;
                         $report->user_type = $request->user_type;
                         $report->spam_type = $request->spam_type;
                         $report->save();
