@@ -24,19 +24,16 @@ class HomeController extends Controller
 
     public function uploadImageApi(Request $request){
         $part = base_path('public/images/');
-        $filename = rand(9,9999).basename($_FILES["imageupload"]["name"]);
-        $res = array(); 
-        $kode = ""; 
-        $pesan = ""; 
 
         if($_SERVER['REQUEST_METHOD'] == "POST")
         {
+            $filename = rand(9,9999).basename($_FILES["imageupload"]["name"]);
             if($_FILES['imageupload'])
             {
                 $destinationfile = $part.$filename;
                 if(move_uploaded_file($_FILES['imageupload']['tmp_name'], $destinationfile))
                 {
-                    return \Response::json(array('code' => '200', 'message' => 'success', 'image_url' => $filename));
+                    return \Response::json(array('code' => '1', 'message' => 'success', 'image_url' => $filename));
                 }else
                 {
                     return \Response::json(array('code' => '403', 'message' => 'unsuccess', 'image_url' => ""));

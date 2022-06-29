@@ -9,6 +9,7 @@ use App\Helpers\Helper;
 
 use Illuminate\Http\Request;
 use App\Transformers\ReportTransformer;
+use App\Transformers\SpamTransformer;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -59,6 +60,9 @@ class ReportController extends Controller
                         // find Spam of User in system
                         $spam = Spam::where('reported_id', $user->id)->first();
                         if($spam){
+                                $spam->report_number = $spam->report_number + 1;
+                                $spam->save();
+
                                 // create report
                                 $report = new Report;
                                 $report->spam_id = $spam->id;
@@ -330,16 +334,11 @@ class ReportController extends Controller
         }
 
         public function getTop(Request $request){
-                $topSpam = Report::select('reported_id', \DB::raw('count(reported_id) as total'))
-                                ->groupBy('reported_id')
-                                ->orderBy('total', 'desc')->take($request->limit)->get()->toArray();
-                dd($topSpam);
-                foreach($topSpam as $sp){
-                        
-                }
-                return fractal()
-                        ->collection($topSpam)
-                        ->transformWith(new ReportTransformer)
-                        ->toArray();
+                $topSpam = Spam::orderBy('report_number', 'desc')->take($request->limit)->get();
+                
+                return response()->json(['status' => 1, 'message'=>'success', 'data' => fractal()
+                                                                                                ->collection($topSpam)
+                                                                                                ->transformWith(new SpamTransformer)
+                                                                                                ->toArray()]);
         }
 }

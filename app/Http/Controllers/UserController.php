@@ -35,7 +35,6 @@ class UserController extends Controller
 
     public function updateUserProfile(Request $request){
         $user = \Auth::user();
-        $user->phone = $request->phone_number;
         $user->second_phone_number = $request->second_phone_number;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -48,6 +47,11 @@ class UserController extends Controller
         $user->about = $request->about;
         $user->website = $request->website;
         $user->save();
+
+        return response()->json(['status' => 1, 'message'=>'OK', 'data' => fractal()
+                                                                            ->item($user)
+                                                                            ->transformWith(new UserTransformer)
+                                                                            ->toArray()]);
         
         return fractal()
                 ->item($user)
@@ -59,6 +63,8 @@ class UserController extends Controller
         $user = \Auth::user();
         $user->security = $request->security;
         $user->save();
+
+        return response()->json(['status' => 1, 'message'=>'OK']);
         
         return fractal()
                 ->item($user)
@@ -69,12 +75,16 @@ class UserController extends Controller
     public function getUserProfile(Request $request){
         $user = User::where('phone', $request->phone)->first();
         if($user){
+            return response()->json(['status' => 1, 'message'=>'OK', 'data' => fractal()
+                                                                                ->item($user)
+                                                                                ->transformWith(new UserTransformer)
+                                                                                ->toArray()]);
             return fractal()
                 ->item($user)
                 ->transformWith(new UserTransformer)
                 ->toArray();
         }else{
-            return response()->json(['status' => 200, 'message'=>'not found']);
+            return response()->json(['status' => 404, 'message'=>'not found']);
         }
     }
 
@@ -96,7 +106,7 @@ class UserController extends Controller
                     'status_code' => 422,
                     'message' => 'Failed to login.',
                     'errors' => $validator->errors()->all()
-                ], 200);
+                ], 1);
         }
 
         $credentials = request(['phone', 'password']);
@@ -105,13 +115,13 @@ class UserController extends Controller
                 'status_code' => 401,
                 'message' => 'Unauthorized',
                 'user_id' => null
-            ], 200);
+            ], 1);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
         $token->save();
         return response()->json([
-            'status_code' => 200,
+            'code' => 1,
             'message' => 'Successfully Logined',
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',

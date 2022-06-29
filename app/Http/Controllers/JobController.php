@@ -13,6 +13,10 @@ class JobController extends Controller
         public function index(){
                 $jobs = Job::get();
 
+                return response()->json(['status' => 1, 'message'=>'success', 'data' => fractal()
+                                                                                        ->collection($jobs)
+                                                                                        ->transformWith(new JobTransformer)
+                                                                                        ->toArray()]);
                 return fractal()
                         ->collection($jobs)
                         ->transformWith(new JobTransformer)
