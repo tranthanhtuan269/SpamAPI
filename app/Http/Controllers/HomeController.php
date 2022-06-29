@@ -33,7 +33,7 @@ class HomeController extends Controller
                 $destinationfile = $part.$filename;
                 if(move_uploaded_file($_FILES['imageupload']['tmp_name'], $destinationfile))
                 {
-                    return \Response::json(array('code' => '1', 'message' => 'success', 'image_url' => $part.$filename));
+                    return \Response::json(array('code' => '1', 'message' => 'success', 'image_url' => url('/images/').$filename));
                 }else
                 {
                     return \Response::json(array('code' => '403', 'message' => 'unsuccess', 'image_url' => ""));
