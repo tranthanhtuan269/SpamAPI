@@ -48,10 +48,7 @@ class UserController extends Controller
         $user->website = $request->website;
         $user->save();
 
-        return response()->json(['status' => 1, 'message'=>'OK', 'data' => fractal()
-                                                                            ->item($user)
-                                                                            ->transformWith(new UserTransformer)
-                                                                            ->toArray()]);
+        return response()->json(['status' => 1, 'message'=>'OK']);
         
         return fractal()
                 ->item($user)
