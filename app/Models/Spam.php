@@ -16,4 +16,9 @@ class Spam extends Model
     {
     	return $this->hasMany(Report::class);
     }
+
+    public function reported()
+    {
+        return $this->belongsTo(User::class, 'reported_id');
+    }
 }

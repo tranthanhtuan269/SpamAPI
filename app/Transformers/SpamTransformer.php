@@ -19,6 +19,8 @@ class SpamTransformer extends TransformerAbstract
         return [
             'id' => $spam->id,
             'name' => $spam->name,
+            'phone_number' => $spam->reported->phone,
+            'report_number' => $spam->report_number
         ];
     }
 
