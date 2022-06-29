@@ -29,6 +29,7 @@ use App\Http\Controllers\HomeController;
 //     return $request->user();
 // });
 
+Route::post('login', [UserController::class, 'login']);
 Route::get('spams/get-top', [ReportController::class, 'getTop']);
 
 Route::group([

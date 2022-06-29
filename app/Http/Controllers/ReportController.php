@@ -330,9 +330,13 @@ class ReportController extends Controller
         }
 
         public function getTop(Request $request){
-                $topSpam = Report::select('id', 'reported_id', 'reporter_id', 'comment', 'job_id', \DB::raw('count(reported_id) as total'))
+                $topSpam = Report::select('reported_id', \DB::raw('count(reported_id) as total'))
                                 ->groupBy('reported_id')
-                                ->orderBy('total', 'desc')->take($request->limit)->get();
+                                ->orderBy('total', 'desc')->take($request->limit)->get()->toArray();
+                dd($topSpam);
+                foreach($topSpam as $sp){
+                        
+                }
                 return fractal()
                         ->collection($topSpam)
                         ->transformWith(new ReportTransformer)

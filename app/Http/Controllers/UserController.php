@@ -39,7 +39,7 @@ class UserController extends Controller
         $user->second_phone_number = $request->second_phone_number;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
-        $user->email = $request->email;
+        $user->email2 = $request->email2;
         $user->birthday = $request->birthday;
         $user->gender = $request->gender;
         $user->street = $request->street;
@@ -76,5 +76,46 @@ class UserController extends Controller
         }else{
             return response()->json(['status' => 200, 'message'=>'not found']);
         }
+    }
+
+    public function login(Request $request)
+    {
+        $request['grant_type']      = 'password';
+        $request['client_id']       = 2;
+        $request['client_secret']   = '3vvfsa28pyF2dsqcwoBgYQQlsL5mC5VrBLx1fJOC';
+        $request['name']            = $request->phone;
+        $request['password']        = 'tohpassword';
+        $request['scope']           = '';
+
+        $validator = \Validator::make($request->all(), [
+            'phone' => 'required|string|min:3|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                    'status_code' => 422,
+                    'message' => 'Failed to login.',
+                    'errors' => $validator->errors()->all()
+                ], 200);
+        }
+
+        $credentials = request(['phone', 'password']);
+        if(!\Auth::attempt($credentials))
+            return response()->json([
+                'status_code' => 401,
+                'message' => 'Unauthorized',
+                'user_id' => null
+            ], 200);
+        $user = $request->user();
+        $tokenResult = $user->createToken('Personal Access Token');
+        $token = $tokenResult->token;
+        $token->save();
+        return response()->json([
+            'status_code' => 200,
+            'message' => 'Successfully Logined',
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'user_id' => $user->id
+        ]);
     }
 }
