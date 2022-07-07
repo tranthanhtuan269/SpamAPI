@@ -70,7 +70,7 @@ class UserController extends Controller
     }
 
     public function getUserProfile(Request $request){
-        $user = User::where('phone', $request->phone)->first();
+        $user = User::where('phone', $request->phone_number)->first();
         if($user){
             return response()->json(['status' => 1, 'message'=>'OK', 'data' => fractal()
                                                                                 ->item($user)
